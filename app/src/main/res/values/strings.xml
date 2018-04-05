@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AngiesBreadWar_App</string>
+    <string name="app_start">Inicio</string>
+    <string name="app_report">Reportar Incidencia</string>
+</resources>

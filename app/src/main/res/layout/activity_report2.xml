@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.breadwar.angies.angiesbreadwar_app.Report2Activity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_login_dark"
+        android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="10">
+
+                <ImageView
+                    android:id="@+id/imageView_foto"
+                    android:layout_weight="8"
+                    android:layout_margin="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <Button
+                    android:id="@+id/button_tomar_foto"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:textSize="18sp"
+                    android:background="@color/primary_dark"
+                    android:text="Tomar Foto"
+                    android:onClick="tomarFoto"
+                    android:textColor="@color/primary_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_enviar_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="60dp"
+                        android:background="#B40404"
+                        android:text="Reportar"
+                        android:textSize="18sp"
+                        android:onClick="enviarFoto"
+                        android:textColor="#ffffff" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/floatingActionButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/primary_dark"
+                        android:layout_marginEnd="60dp"
+                        android:clickable="true"
+                        android:onClick="regresar"
+                        android:scaleType="center"
+                        app:srcCompat="@android:drawable/ic_menu_revert" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+</RelativeLayout>

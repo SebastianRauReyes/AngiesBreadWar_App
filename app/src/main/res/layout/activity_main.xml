@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.breadwar.angies.angiesbreadwar_app.MainActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_login_dark"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/imageView_user"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
+                android:src="@drawable/img_user_light" />
+
+            <TextView
+                android:id="@+id/textview_current_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView_user"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/primary_dark"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button_reportar_incidencia"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_below="@+id/textview_current_user"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:background="@color/primary_dark"
+                android:drawableStart="@mipmap/ic_warming_red"
+                android:paddingEnd="50dp"
+                android:paddingStart="50dp"
+                android:text="Reportar"
+                android:onClick="hacerreporte"
+                android:textColor="@color/primary_light"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button_reservar_aula"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_alignEnd="@+id/button_reportar_incidencia"
+                android:layout_below="@+id/button_reportar_incidencia"
+                android:layout_marginTop="50dp"
+                android:background="@color/primary_dark"
+                android:drawableStart="@mipmap/ic_calendar"
+                android:paddingEnd="50dp"
+                android:paddingStart="50dp"
+                android:text="Reservar"
+                android:onClick="hacerreservacion"
+                android:textColor="@color/primary_light"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+
+</ScrollView>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.breadwar.angies.angiesbreadwar_app.LoginActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_login_dark"
+        android:scaleType="centerCrop"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp">
+
+                <ImageView
+                    android:id="@+id/img_logo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/img_logo3"
+                    android:adjustViewBounds="true"/>
+
+                <TextView
+                    android:id="@+id/textview_user"
+                    android:layout_below="@+id/img_logo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Usuario"
+                    android:textSize="18sp"
+                    android:textColor="@color/primary_light"
+                    android:textAlignment="center"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"/>
+
+                <EditText
+                    android:id="@+id/edittext_user"
+                    android:layout_below="@+id/textview_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"/>
+
+                <TextView
+                    android:id="@+id/textview_pass"
+                    android:layout_below="@+id/edittext_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contraseña"
+                    android:textColor="@color/primary_light"
+                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/edittext_pass"
+                    android:layout_below="@+id/textview_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:inputType="textPassword"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_remember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edittext_pass"
+                    android:layout_centerHorizontal="true"
+                    android:text="Recordarme"
+                    android:layout_marginTop="20dp"/>
+
+                <Button
+                    android:id="@+id/button_enter"
+                    android:layout_below="@+id/checkbox_remember"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@color/primary_dark"
+                    android:text="Ingresar"
+                    android:onClick="ingresar"/>
+
+            </RelativeLayout>
+
+</RelativeLayout>

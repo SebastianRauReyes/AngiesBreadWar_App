@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.breadwar.angies.angiesbreadwar_app.Report1Activity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_login_dark"
+        android:scaleType="centerCrop"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <CheckBox
+            android:id="@+id/checkBox_reporte_anonimo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="137dp"
+            android:buttonTint="@color/primary_light"
+            android:text="Reporte Anónimo"
+            android:textColor="@color/primary_light"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/button_equipos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/checkBox_reporte_anonimo"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="65dp"
+            android:background="#0B615E"
+            android:onClick="reportarEquipos"
+            android:text="Equipos o Maquinarias"
+            android:textColor="@color/primary_light"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/button_otros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_equipos"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="50dp"
+            android:background="#0B615E"
+            android:text="Otros"
+            android:onClick="reportarOtros"
+            android:textColor="@color/primary_light"
+            android:textSize="18dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_otros"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="71dp"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_revert"
+            android:scaleType="center"
+            android:onClick="regresar"
+            android:backgroundTint="@color/primary_dark"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
