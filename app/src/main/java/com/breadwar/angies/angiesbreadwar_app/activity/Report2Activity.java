@@ -185,14 +185,13 @@ public class Report2Activity extends AppCompatActivity {
         String coment = comentario.getText().toString();
 
         if (coment.isEmpty()) {
-            Toast.makeText(this, "Nombre y Precio son campos requeridos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Completar comentario", Toast.LENGTH_SHORT).show();
             return;
 
         }
 
         ApiService service = ApiServiceGenerator.createService(ApiService.class);
         Call<ResponseMessage2> call = null;
-
 
 
             File file = new File(mediaFileUri.getPath());
@@ -214,7 +213,6 @@ public class Report2Activity extends AppCompatActivity {
             MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
             RequestBody comentarioPart = RequestBody.create(MultipartBody.FORM, coment);
             call = service.createReporteImagen(comentarioPart, imagenPart);
-
 
         call.enqueue(new Callback<ResponseMessage2>() {
             @Override

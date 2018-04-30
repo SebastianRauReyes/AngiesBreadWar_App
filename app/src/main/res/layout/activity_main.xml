@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.breadwar.angies.angiesbreadwar_app.provisional.MainActivity">
+    tools:context="com.breadwar.angies.angiesbreadwar_app.activity.MainActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_below="@+id/textview_current_user"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
-                android:background="@color/primary_dark"
+                android:background="@drawable/custom_button_2"
                 android:drawableStart="@mipmap/ic_warming_red"
                 android:paddingEnd="50dp"
                 android:paddingStart="50dp"
@@ -59,7 +59,7 @@
                 android:layout_alignEnd="@+id/button_reportar_incidencia"
                 android:layout_below="@+id/button_reportar_incidencia"
                 android:layout_marginTop="50dp"
-                android:background="@color/primary_dark"
+                android:background="@drawable/custom_button_3"
                 android:drawableStart="@mipmap/ic_calendar"
                 android:paddingEnd="50dp"
                 android:paddingStart="50dp"

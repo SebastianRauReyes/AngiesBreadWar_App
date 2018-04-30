@@ -23,7 +23,6 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />
@@ -46,9 +45,12 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:background="@color/primary_dark"
                     android:text="Tomar Foto"
+                    android:drawableStart="@mipmap/ic_camera_report"
+                    android:textAlignment="textStart"
+                    android:paddingStart="80dp"
                     android:onClick="takePicture"
                     android:textColor="@color/primary_light" />
 
@@ -60,29 +62,26 @@
 
                     <Button
                         android:id="@+id/button_enviar_foto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="60dp"
-                        android:layout_marginEnd="60dp"
+                        android:layout_height="wrap_content"
                         android:background="#B40404"
                         android:text="Reportar"
                         android:textSize="18sp"
                         android:onClick="Reportar"
-                        android:textColor="#ffffff" />
+                        android:textColor="#ffffff"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="10dp"/>
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/floatingActionButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <ImageButton
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/primary_dark"
-                        android:layout_marginEnd="60dp"
-                        android:clickable="true"
-                        android:scaleType="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_go_back"
                         android:onClick="regresar"
-                        app:srcCompat="@android:drawable/ic_menu_revert" />
+                        android:scaleType="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="25dp"/>
 
                 </LinearLayout>
 

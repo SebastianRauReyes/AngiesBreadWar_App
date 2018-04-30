@@ -1,6 +1,8 @@
 package com.breadwar.angies.angiesbreadwar_app.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,14 +18,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     static String token = "";
     private EditText user;
     private EditText pass;
     static Intent intentMain;
-    
+
+    // SharedPreferences
+    private SharedPreferences sharedPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +37,25 @@ public class LoginActivity extends AppCompatActivity {
         user = findViewById(R.id.edittext_user);
         pass = findViewById(R.id.edittext_pass);
 
+        // init SharedPreferences
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // username remember
+        String username = sharedPreferences.getString("username", null);
+        if(username != null){
+            user.setText(username);
+            pass.requestFocus();
+
+        }
+        // islogged remember
+        if(sharedPreferences.getBoolean("islogged", false)){
+            // Go to MainActivity
+            goMainActivity();
+        }
+
     }
 
     ApiService service = ApiServiceGenerator.createService(ApiService.class);
-
 
     public void ingresar(View view){
 
@@ -50,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
 
         Call<ResponseMessage> call;
@@ -112,10 +131,13 @@ public class LoginActivity extends AppCompatActivity {
 
                        /* ResponseUser responseUser = response.body();
                         Log.d(TAG, "responseUser: "+responseUser.getName() );*/
-                        intentMain = new Intent(LoginActivity.this, MainActivity.class);
-                        intentMain.putExtra("name","Bienvenido");
-                        startActivity(intentMain);
-
+                            goMainActivity();
+                        // Save to SharedPreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        boolean success = editor
+                                .putString("username", user.getText().toString())
+                                .putBoolean("islogged", true)
+                                .commit();
 
                     } else {
 
@@ -139,8 +161,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-
+    public void goMainActivity(){
+        intentMain = new Intent(LoginActivity.this, MainActivity.class);
+        intentMain.putExtra("name","Bienvenido");
+        startActivity(intentMain);
+        finish();
+    }
 
 
 }

@@ -14,7 +14,6 @@ public class Report1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report1);
 
-
     }
 
     public void regresar(View view){
