@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.breadwar.angies.angiesbreadwar_app.Report1Activity">
+    tools:context="com.breadwar.angies.angiesbreadwar_app.activity.Report2Activity">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

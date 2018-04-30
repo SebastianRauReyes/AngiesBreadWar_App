@@ -1,12 +1,13 @@
-package com.breadwar.angies.angiesbreadwar_app;
+package com.breadwar.angies.angiesbreadwar_app.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.breadwar.angies.angiesbreadwar_app.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         reportarincidencia = findViewById(R.id.button_reportar_incidencia);
 
         if(this.getIntent().getExtras() != null) {
-            if(this.getIntent().getExtras().get("username") != null) {
-                String username = this.getIntent().getExtras().getString("username");
+            if(this.getIntent().getExtras().get("name") != null) {
+                String username = this.getIntent().getExtras().getString("name");
                 currentUser.setText(username);
             }
         }
