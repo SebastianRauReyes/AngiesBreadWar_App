@@ -37,6 +37,9 @@
             android:name=".activity.Report2Activity"
             android:theme="@style/AppThemeReport" />
         <activity android:name=".activity.ReservationActivity"></activity>
+
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="orc"/>
+
     </application>
 
 </manifest>

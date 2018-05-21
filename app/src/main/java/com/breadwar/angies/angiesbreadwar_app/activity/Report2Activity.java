@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +24,9 @@ import com.breadwar.angies.angiesbreadwar_app.interfaces.ApiService;
 import com.breadwar.angies.angiesbreadwar_app.interfaces.ApiServiceGenerator;
 import com.breadwar.angies.angiesbreadwar_app.model.ResponseMessage;
 import com.breadwar.angies.angiesbreadwar_app.model.ResponseMessage2;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -103,8 +107,14 @@ public class Report2Activity extends AppCompatActivity {
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mediaFileUri);
 
+
+
                     // Reducir la imagen a 800px solo si lo supera
                     bitmap = scaleBitmapDown(bitmap, 1000);
+
+                   //Obtener Texto de Imagenes
+                    getTextFromImage(bitmap);
+
                     foto.setImageBitmap(bitmap);
 
                 } catch (Exception e) {
@@ -253,6 +263,36 @@ public class Report2Activity extends AppCompatActivity {
     }
     public void regresar(View view){
         finish();
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------------------
+
+    public void getTextFromImage(Bitmap bitmap){
+
+        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+
+        if(!textRecognizer.isOperational()){
+            Toast.makeText(getApplicationContext(), "No se pudo obtener el texto",Toast.LENGTH_SHORT).show();
+        }
+        else  {
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            SparseArray<TextBlock> items = textRecognizer.detect(frame);
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for(int i=0;i<items.size();i++){
+                TextBlock textBlock = items.valueAt(i);
+                stringBuilder.append(textBlock.getValue());
+                stringBuilder.append("\n");
+            }
+            ///
+            //Texto -> stringBuildert.toString()
+            Log.d(TAG, "Mensaje de la Imagen : " + stringBuilder.toString());
+            Toast.makeText(Report2Activity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+
+
+        }
+
     }
 
 }
