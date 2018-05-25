@@ -46,6 +46,7 @@ public class Report2Activity extends AppCompatActivity {
 
 
     private static final String TAG = Report2Activity.class.getSimpleName();
+
     private ImageView foto;
     private EditText comentario;
 
@@ -145,6 +146,7 @@ public class Report2Activity extends AppCompatActivity {
             // Resultado en la captura de la foto
             if (resultCode == RESULT_OK) {
                 try {
+                    Toast.makeText(this, "ResultCode: RESULT_O", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "ResultCode: RESULT_OK");
                     // Toast.makeText(this, "Image saved to: " + mediaFileUri.getPath(), Toast.LENGTH_LONG).show();
 
@@ -153,8 +155,11 @@ public class Report2Activity extends AppCompatActivity {
                     bitmap = scaleBitmapDown(bitmap, 1000);
 
                     if( CAPTURE_IMAGE_DATOS == 301){
-                        getTextFromImage(bitmap);
+
+                       getTextFromImage(bitmap);
+
                         CAPTURE_IMAGE_DATOS = 0;
+
                         Toast.makeText(this, "Leyendo Imagen...", Toast.LENGTH_LONG).show();
                     }else{
                         foto.setImageBitmap(bitmap);
@@ -234,7 +239,7 @@ public class Report2Activity extends AppCompatActivity {
 
     public void Reportar(View view){
         String coment = comentario.getText().toString();
-        String user_id = "1";
+        String user_id = "5";
         String maquinaria_id = "1";
         String aula_id = "1";
 
@@ -316,29 +321,40 @@ public class Report2Activity extends AppCompatActivity {
     //-------------------------------------------------------------------------------------------------------------------------------------
 
     public void getTextFromImage(Bitmap bitmap){
+        try {
+            Log.d(TAG, "TextRecognizer");
 
-        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+            TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
-        if(!textRecognizer.isOperational()){
-            Toast.makeText(getApplicationContext(), "No se pudo obtener el texto",Toast.LENGTH_SHORT).show();
-        }
-        else  {
-            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-            SparseArray<TextBlock> items = textRecognizer.detect(frame);
+            if (!textRecognizer.isOperational()) {
 
-            StringBuilder stringBuilder = new StringBuilder();
+                Toast.makeText(getApplicationContext(), "No se pudo obtener el texto", Toast.LENGTH_SHORT).show();
 
-            for(int i=0;i<items.size();i++){
-                TextBlock textBlock = items.valueAt(i);
-                stringBuilder.append(textBlock.getValue());
-                stringBuilder.append("\n");
+            } else {
+                Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                SparseArray<TextBlock> items = textRecognizer.detect(frame);
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int i = 0; i < items.size(); i++) {
+
+                    TextBlock textBlock = items.valueAt(i);
+                    stringBuilder.append(textBlock.getValue());
+                    stringBuilder.append("\n");
+                    Log.d(TAG, "Tamaño: " + items.size());
+
+
+                }
+                ///
+                //Texto -> stringBuildert.toString()
+                Log.d(TAG, "Mensaje de la Imagen : " + stringBuilder.toString());
+                Toast.makeText(Report2Activity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+
+
             }
-            ///
-            //Texto -> stringBuildert.toString()
-            Log.d(TAG, "Mensaje de la Imagen : " + stringBuilder.toString());
-            Toast.makeText(Report2Activity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
-
-
+        }catch (Throwable t){
+            Toast.makeText(this, "Error:" + t, Toast.LENGTH_LONG).show();
+            Log.d(TAG, "t:" + t, t);
         }
 
     }
