@@ -35,6 +35,7 @@ import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +49,10 @@ public class Report2Activity extends AppCompatActivity {
     private ImageView foto;
     private EditText comentario;
 
+    private static final int CAPTURE_IMAGE_REQUEST = 300;
+    private static int CAPTURE_IMAGE_DATOS;
+    private Uri mediaFileUri;
+
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -58,14 +63,12 @@ public class Report2Activity extends AppCompatActivity {
             setContentView(R.layout.activity_report2);
             foto = findViewById(R.id.imageView_foto);
             comentario = findViewById(R.id.imageView_comentario);
+
     }
 
-    private static final int CAPTURE_IMAGE_REQUEST = 300;
-    private Uri mediaFileUri;
-
-
-
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
     public void takePicture(View view) {
+        CAPTURE_IMAGE_DATOS = 0;
         try {
 
             if (!permissionsGranted()) {
@@ -96,6 +99,46 @@ public class Report2Activity extends AppCompatActivity {
         }
     }
 
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
+    public void capturarValor(View view){
+        CAPTURE_IMAGE_DATOS = 301;
+        try {
+
+            if (!permissionsGranted()) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_LIST, PERMISSIONS_REQUEST);
+                return;
+            }
+
+            // Creando el directorio de imágenes (si no existe)
+            File mediaStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdirs()) {
+                    throw new Exception("Failed to create directory");
+                }
+            }
+            /// Definiendo la ruta destino de la captura (Uri)
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+            mediaFileUri = Uri.fromFile(mediaFile);
+
+            // Iniciando la captura
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaFileUri);
+            startActivityForResult(intent, CAPTURE_IMAGE_REQUEST);
+
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+            Toast.makeText(this, "Error en captura: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_REQUEST) {
@@ -106,16 +149,18 @@ public class Report2Activity extends AppCompatActivity {
                     // Toast.makeText(this, "Image saved to: " + mediaFileUri.getPath(), Toast.LENGTH_LONG).show();
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mediaFileUri);
-
-
-
                     // Reducir la imagen a 800px solo si lo supera
                     bitmap = scaleBitmapDown(bitmap, 1000);
 
-                   //Obtener Texto de Imagenes
-                    getTextFromImage(bitmap);
+                    if( CAPTURE_IMAGE_DATOS == 301){
+                        getTextFromImage(bitmap);
+                        CAPTURE_IMAGE_DATOS = 0;
+                        Toast.makeText(this, "Leyendo Imagen...", Toast.LENGTH_LONG).show();
+                    }else{
+                        foto.setImageBitmap(bitmap);
+                        Toast.makeText(this, "Guardando captura...", Toast.LENGTH_LONG).show();
+                    }
 
-                    foto.setImageBitmap(bitmap);
 
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
@@ -128,10 +173,6 @@ public class Report2Activity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
     /**
      * Permissions handler
      */
@@ -193,6 +234,10 @@ public class Report2Activity extends AppCompatActivity {
 
     public void Reportar(View view){
         String coment = comentario.getText().toString();
+        String user_id = "1";
+        String maquinaria_id = "1";
+        String aula_id = "1";
+
 
         if (coment.isEmpty()) {
             Toast.makeText(this, "Completar comentario", Toast.LENGTH_SHORT).show();
@@ -202,7 +247,6 @@ public class Report2Activity extends AppCompatActivity {
 
         ApiService service = ApiServiceGenerator.createService(ApiService.class);
         Call<ResponseMessage2> call = null;
-
 
             File file = new File(mediaFileUri.getPath());
             Log.d(TAG, "File: " + file.getPath() + " - exists: " + file.exists());
@@ -219,10 +263,14 @@ public class Report2Activity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
+            RequestBody requestuser_id = RequestBody.create(MultipartBody.FORM, user_id );
+            RequestBody requestMaquinaria_id = RequestBody.create(MultipartBody.FORM, maquinaria_id );
+            RequestBody requesAula_id = RequestBody.create(MultipartBody.FORM, aula_id);
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
             MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
             RequestBody comentarioPart = RequestBody.create(MultipartBody.FORM, coment);
-            call = service.createReporteImagen(comentarioPart, imagenPart);
+
+            call = service.createReporte(requestuser_id, requestMaquinaria_id, requesAula_id, comentarioPart, imagenPart);
 
         call.enqueue(new Callback<ResponseMessage2>() {
             @Override

@@ -4,6 +4,7 @@ import com.breadwar.angies.angiesbreadwar_app.model.ResponseMessage2;
 import com.breadwar.angies.angiesbreadwar_app.model.ResponseUser;
 
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,7 +16,7 @@ import retrofit2.http.Part;
 
 public interface ApiService {
 
-    String API_BASE_URL = "https://laravel-gal05.cs50.io";
+    String API_BASE_URL = "https://pi4-v2-larav-pass-excel-api-gal05.c9users.io";
 
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -31,13 +32,12 @@ public interface ApiService {
 
 
     @Multipart
-    @POST("/api/reporteStore")
-            Call<ResponseMessage> createReporte(
-                                @Part("aula_id") RequestBody aula_id,
+    @POST("/api/reporte")
+            Call<ResponseMessage2> createReporte(
+                                @Part("user_id") RequestBody user_id,
                                 @Part("maquinaria_id")   RequestBody maquinaria_id,
+                                @Part("aula_id") RequestBody aula_id,
                                 @Part("observacion")    RequestBody observacion,
-                                @Part("created_at")     RequestBody  created_at,
-                                @Part(" update_at")     RequestBody  update_at,
                                 @Part MultipartBody.Part imagen
                     );
 

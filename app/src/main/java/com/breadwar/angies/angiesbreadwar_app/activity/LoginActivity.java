@@ -43,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         // username remember
         String username = sharedPreferences.getString("username", null);
         if(username != null){
-            user.setText(username);
-            pass.requestFocus();
+            /*user.setText(username);
+            pass.requestFocus();*/
 
         }
         // islogged remember
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = pass.getText().toString();
         String gandType = "password";
         String clientId = "2";
-        String clientSecret = "FSpUHHCCw6NuhpnAZyGeeWoDx28AjVkgMJlPX5mg";
+        String clientSecret = "q03flHoux0KNekRK0ICtEZ2CjfBTIDwGADx4094Y";
 
 
         if("".equals(username) || "".equals(password)){
@@ -90,7 +90,13 @@ public class LoginActivity extends AppCompatActivity {
                         authorization = responseMessage.getToken_type()+" "+responseMessage.getAccess_token();
                         token = authorization;
                         Log.d(TAG, "HTTP status code: " + responseMessage.getToken_type()+" "+responseMessage.getAccess_token());
-                        ObtenerDatosUsuario(authorization);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        boolean success = editor
+                                .putString("username", "Admin")
+                                .putBoolean("islogged", true)
+                                .commit();
+                        goMainActivity();
+                        //ObtenerDatosUsuario(authorization);
 
 
 
@@ -133,11 +139,11 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "responseUser: "+responseUser.getName() );*/
                             goMainActivity();
                         // Save to SharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        /*SharedPreferences.Editor editor = sharedPreferences.edit();
                         boolean success = editor
                                 .putString("username", user.getText().toString())
                                 .putBoolean("islogged", true)
-                                .commit();
+                                .commit();*/
 
                     } else {
 

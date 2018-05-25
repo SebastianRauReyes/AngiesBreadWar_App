@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        if(this.getIntent().getExtras() != null) {
+        /*if(this.getIntent().getExtras() != null) {
             if(this.getIntent().getExtras().get("name") != null) {
                 String username = this.getIntent().getExtras().getString("name");
                 currentUser.setText(username);
             }
-        }
+        }*/
 
     }
     public void hacerreporte(View view){
