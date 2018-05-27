@@ -19,7 +19,7 @@
 
                 <ImageView
                     android:id="@+id/imageView_foto"
-                    android:layout_weight="8"
+                    android:layout_weight="11"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginTop="15dp"
@@ -37,16 +37,28 @@
                     android:layout_height="wrap_content"
                     />
 
+                <TextView
+                    android:id="@+id/TextView_info"
+                    android:text="Sin valores capturados..."
+                    android:textColor="@color/primary_light"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
 
                     <Button
                         android:id="@+id/capturar_valores"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
                         android:layout_weight="1"
                         android:background="@color/secondary_text"
@@ -59,8 +71,7 @@
                     <Button
                         android:id="@+id/button_tomar_foto"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginEnd="25dp"
                         android:layout_marginStart="20dp"
                         android:background="@color/primary_dark"
@@ -77,8 +88,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <Button

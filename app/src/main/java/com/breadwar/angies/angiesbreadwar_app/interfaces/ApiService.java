@@ -41,11 +41,6 @@ public interface ApiService {
                                 @Part MultipartBody.Part imagen
                     );
 
-    @Multipart
-    @POST("/api/v1/reportesimage")
-            Call<ResponseMessage2> createReporteImagen(
-                    @Part("comentario") RequestBody comentario,
-                    @Part MultipartBody.Part imagen);
 
 }
 

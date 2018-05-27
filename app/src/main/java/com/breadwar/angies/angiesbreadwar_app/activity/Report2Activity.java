@@ -18,6 +18,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.breadwar.angies.angiesbreadwar_app.R;
 import com.breadwar.angies.angiesbreadwar_app.interfaces.ApiService;
@@ -49,10 +50,16 @@ public class Report2Activity extends AppCompatActivity {
 
     private ImageView foto;
     private EditText comentario;
+    private TextView info;
 
     private static final int CAPTURE_IMAGE_REQUEST = 300;
     private static int CAPTURE_IMAGE_DATOS;
     private Uri mediaFileUri;
+
+    private String user_id = "1";
+    private String maquinaria_id;
+    private String aula_id;
+
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class Report2Activity extends AppCompatActivity {
             setContentView(R.layout.activity_report2);
             foto = findViewById(R.id.imageView_foto);
             comentario = findViewById(R.id.imageView_comentario);
+            info = findViewById(R.id.TextView_info);
+
 
     }
 
@@ -134,10 +143,6 @@ public class Report2Activity extends AppCompatActivity {
         }
     }
 
-
-
-
-
     //-----------------------------------------------------------------------------------------------------------------------------------------------
 
     @Override
@@ -146,8 +151,7 @@ public class Report2Activity extends AppCompatActivity {
             // Resultado en la captura de la foto
             if (resultCode == RESULT_OK) {
                 try {
-                    Toast.makeText(this, "ResultCode: RESULT_O", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "ResultCode: RESULT_OK");
+                     Log.d(TAG, "Procesando...");
                     // Toast.makeText(this, "Image saved to: " + mediaFileUri.getPath(), Toast.LENGTH_LONG).show();
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mediaFileUri);
@@ -155,12 +159,11 @@ public class Report2Activity extends AppCompatActivity {
                     bitmap = scaleBitmapDown(bitmap, 1000);
 
                     if( CAPTURE_IMAGE_DATOS == 301){
-
-                       getTextFromImage(bitmap);
-
+                        Bitmap bitmapPersonal = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.muestra_lab);
+                       getTextFromImage(bitmapPersonal);
                         CAPTURE_IMAGE_DATOS = 0;
-
                         Toast.makeText(this, "Leyendo Imagen...", Toast.LENGTH_LONG).show();
+                        info.setText("Aula: "+aula_id+" - Equipo: " + maquinaria_id);
                     }else{
                         foto.setImageBitmap(bitmap);
                         Toast.makeText(this, "Guardando captura...", Toast.LENGTH_LONG).show();
@@ -239,13 +242,11 @@ public class Report2Activity extends AppCompatActivity {
 
     public void Reportar(View view){
         String coment = comentario.getText().toString();
-        String user_id = "5";
-        String maquinaria_id = "1";
-        String aula_id = "1";
+        String maquina_id = maquinaria_id;
+        String aulaid = aula_id;
 
-
-        if (coment.isEmpty()) {
-            Toast.makeText(this, "Completar comentario", Toast.LENGTH_SHORT).show();
+        if (coment.isEmpty() && maquina_id.isEmpty() && aulaid.isEmpty()) {
+            Toast.makeText(this, "Completar campos requeridos", Toast.LENGTH_SHORT).show();
             return;
 
         }
@@ -334,23 +335,15 @@ public class Report2Activity extends AppCompatActivity {
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                 SparseArray<TextBlock> items = textRecognizer.detect(frame);
 
-                StringBuilder stringBuilder = new StringBuilder();
+                TextBlock InfoLAB = items.valueAt(2);
+                String LABORATORIO = InfoLAB.getValue().substring(3,6);
+                String MAQUINA = InfoLAB.getValue().substring(7,9);
 
-                for (int i = 0; i < items.size(); i++) {
+                maquinaria_id  = MAQUINA;
+                aula_id = LABORATORIO;
 
-                    TextBlock textBlock = items.valueAt(i);
-                    stringBuilder.append(textBlock.getValue());
-                    stringBuilder.append("\n");
-                    Log.d(TAG, "Tamaño: " + items.size());
-
-
-                }
-                ///
-                //Texto -> stringBuildert.toString()
-                Log.d(TAG, "Mensaje de la Imagen : " + stringBuilder.toString());
-                Toast.makeText(Report2Activity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
-
-
+                Log.d(TAG, "LABORATORIO : " + LABORATORIO);
+                Log.d(TAG, "MAQUINA : " + MAQUINA);
             }
         }catch (Throwable t){
             Toast.makeText(this, "Error:" + t, Toast.LENGTH_LONG).show();

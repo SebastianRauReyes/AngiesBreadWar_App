@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = pass.getText().toString();
         String gandType = "password";
         String clientId = "2";
-        String clientSecret = "q03flHoux0KNekRK0ICtEZ2CjfBTIDwGADx4094Y";
+        String clientSecret = "gBd87ZSFdOvjM1WWQn3bYkrIkfKywk6z2FBhEvJr";
 
 
         if("".equals(username) || "".equals(password)){
