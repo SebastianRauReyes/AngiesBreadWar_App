@@ -27,12 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     // SharedPreferences
     private SharedPreferences sharedPreferences;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         user = findViewById(R.id.edittext_user);
         pass = findViewById(R.id.edittext_pass);
 
@@ -44,12 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         if(username != null){
             user.setText(username);
             pass.requestFocus();
-
         }
         // islogged remember
         if(sharedPreferences.getBoolean("islogged", false)){
-            // Go to MainActivity
-            goMainActivity();
+         // Go to MainActivity
+          goMainActivity();
         }
 
     }
@@ -57,23 +54,19 @@ public class LoginActivity extends AppCompatActivity {
     ApiService service = ApiServiceGenerator.createService(ApiService.class);
 
     public void ingresar(View view){
-
         String username = user.getText().toString();
         String password = pass.getText().toString();
         String gandType = "password";
         String clientId = "2";
         String clientSecret = "gBd87ZSFdOvjM1WWQn3bYkrIkfKywk6z2FBhEvJr";
 
-
         if("".equals(username) || "".equals(password)){
             Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
         Call<ResponseMessage> call;
         call = service.login(username, password, gandType, clientId, clientSecret);
-
 
         call.enqueue(new Callback<ResponseMessage>() {
             @Override
@@ -116,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
 
     public void goMainActivity(){
         intentMain = new Intent(LoginActivity.this, MainActivity.class);
