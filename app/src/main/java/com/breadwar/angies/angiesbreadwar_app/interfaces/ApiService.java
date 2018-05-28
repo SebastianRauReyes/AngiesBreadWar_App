@@ -19,17 +19,12 @@ public interface ApiService {
     String API_BASE_URL = "https://pi4-v2-larav-pass-excel-api-gal05.c9users.io";
 
     @FormUrlEncoded
-    @POST("/oauth/token")
+    @POST("/api/login")
             Call<ResponseMessage> login(@Field("username")      String username,
                                         @Field("password")      String password,
                                         @Field("grant_type")    String grant_type,
                                         @Field("client_id")     String client_id,
                                         @Field("client_secret") String client_secret );
-
-
-    @POST("/api/profile")
-            Call<ResponseUser> detail(@Header("authorization")  String authorization);
-
 
     @Multipart
     @POST("/api/reporte")

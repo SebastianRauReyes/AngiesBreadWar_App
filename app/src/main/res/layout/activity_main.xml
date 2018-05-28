@@ -33,6 +33,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/primary_dark"
+                android:text="Usuario"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -45,8 +46,8 @@
                 android:layout_marginTop="70dp"
                 android:background="@drawable/custom_button_2"
                 android:drawableStart="@mipmap/ic_warming_red"
-                android:paddingEnd="50dp"
-                android:paddingStart="50dp"
+                android:paddingEnd="40dp"
+                android:paddingStart="40dp"
                 android:text="Reportar"
                 android:onClick="hacerreporte"
                 android:textColor="@color/primary_light"

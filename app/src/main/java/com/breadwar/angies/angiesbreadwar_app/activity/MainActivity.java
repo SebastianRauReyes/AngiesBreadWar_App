@@ -17,7 +17,6 @@ import com.breadwar.angies.angiesbreadwar_app.R;
 public class MainActivity extends AppCompatActivity {
 
    private TextView currentUser;
-   private Button reportarincidencia;
    private SharedPreferences sharedPreferences;
 
     @Override
@@ -26,18 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         currentUser = findViewById(R.id.textview_current_user);
-        reportarincidencia = findViewById(R.id.button_reportar_incidencia);
 
         // init SharedPreferences
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        currentUser.setText(sharedPreferences.getString("name",null));
 
-
-        /*if(this.getIntent().getExtras() != null) {
-            if(this.getIntent().getExtras().get("name") != null) {
-                String username = this.getIntent().getExtras().getString("name");
-                currentUser.setText(username);
-            }
-        }*/
 
     }
     public void hacerreporte(View view){

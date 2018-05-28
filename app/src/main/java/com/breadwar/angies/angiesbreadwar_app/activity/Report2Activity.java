@@ -2,12 +2,14 @@ package com.breadwar.angies.angiesbreadwar_app.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -56,9 +58,11 @@ public class Report2Activity extends AppCompatActivity {
     private static int CAPTURE_IMAGE_DATOS;
     private Uri mediaFileUri;
 
-    private String user_id = "1";
+    private int user_id;
     private String maquinaria_id;
     private String aula_id;
+
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -72,6 +76,9 @@ public class Report2Activity extends AppCompatActivity {
             foto = findViewById(R.id.imageView_foto);
             comentario = findViewById(R.id.imageView_comentario);
             info = findViewById(R.id.TextView_info);
+
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            user_id = sharedPreferences.getInt("id",0);
 
 
     }
@@ -159,8 +166,8 @@ public class Report2Activity extends AppCompatActivity {
                     bitmap = scaleBitmapDown(bitmap, 1000);
 
                     if( CAPTURE_IMAGE_DATOS == 301){
-                        Bitmap bitmapPersonal = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.muestra_lab);
-                       getTextFromImage(bitmapPersonal);
+                       /// Bitmap bitmapPersonal = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.muestra_lab);
+                        getTextFromImage(bitmap);
                         CAPTURE_IMAGE_DATOS = 0;
                         Toast.makeText(this, "Leyendo Imagen...", Toast.LENGTH_LONG).show();
                         info.setText("Aula: "+aula_id+" - Equipo: " + maquinaria_id);
@@ -244,6 +251,7 @@ public class Report2Activity extends AppCompatActivity {
         String coment = comentario.getText().toString();
         String maquina_id = maquinaria_id;
         String aulaid = aula_id;
+        String userid = String.valueOf(user_id);
 
         if (coment.isEmpty() && maquina_id.isEmpty() && aulaid.isEmpty()) {
             Toast.makeText(this, "Completar campos requeridos", Toast.LENGTH_SHORT).show();
@@ -269,9 +277,9 @@ public class Report2Activity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
-            RequestBody requestuser_id = RequestBody.create(MultipartBody.FORM, user_id );
-            RequestBody requestMaquinaria_id = RequestBody.create(MultipartBody.FORM, maquinaria_id );
-            RequestBody requesAula_id = RequestBody.create(MultipartBody.FORM, aula_id);
+            RequestBody requestuser_id = RequestBody.create(MultipartBody.FORM, userid );
+            RequestBody requestMaquinaria_id = RequestBody.create(MultipartBody.FORM, maquina_id );
+            RequestBody requesAula_id = RequestBody.create(MultipartBody.FORM, aulaid);
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
             MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
             RequestBody comentarioPart = RequestBody.create(MultipartBody.FORM, coment);

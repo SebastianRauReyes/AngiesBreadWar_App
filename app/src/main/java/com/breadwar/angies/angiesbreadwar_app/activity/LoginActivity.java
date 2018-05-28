@@ -20,7 +20,6 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    static String token = "";
     private EditText user;
     private EditText pass;
     static Intent intentMain;
@@ -43,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         // username remember
         String username = sharedPreferences.getString("username", null);
         if(username != null){
-            /*user.setText(username);
-            pass.requestFocus();*/
+            user.setText(username);
+            pass.requestFocus();
 
         }
         // islogged remember
@@ -85,19 +84,18 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "HTTP status code: " + statusCode);
 
                     if (response.isSuccessful()) {
-                        String authorization;
                         ResponseMessage responseMessage = response.body();
-                        authorization = responseMessage.getToken_type()+" "+responseMessage.getAccess_token();
-                        token = authorization;
+
                         Log.d(TAG, "HTTP status code: " + responseMessage.getToken_type()+" "+responseMessage.getAccess_token());
+                        Log.e(TAG, responseMessage.getName()+ "  "+responseMessage.getId());
+
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         boolean success = editor
-                                .putString("username", "Admin")
+                                .putString("name", responseMessage.getName())
+                                .putInt("id", responseMessage.getId())
                                 .putBoolean("islogged", true)
                                 .commit();
-                        goMainActivity();
-                        //ObtenerDatosUsuario(authorization);
-
+                            goMainActivity();
 
 
                     } else {
@@ -119,53 +117,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void ObtenerDatosUsuario(String autho){
-
-        Call<ResponseUser> call2;
-        call2 = service.detail(autho);
-        call2.enqueue(new Callback<ResponseUser>() {
-            @Override
-            public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
-                try {
-
-
-                    int statusCode = response.code();
-                    Log.d(TAG, "HTTP status code: " + statusCode);
-
-
-                    if (response.isSuccessful()) {
-
-                       /* ResponseUser responseUser = response.body();
-                        Log.d(TAG, "responseUser: "+responseUser.getName() );*/
-                            goMainActivity();
-                        // Save to SharedPreferences
-                        /*SharedPreferences.Editor editor = sharedPreferences.edit();
-                        boolean success = editor
-                                .putString("username", user.getText().toString())
-                                .putBoolean("islogged", true)
-                                .commit();*/
-
-                    } else {
-
-                        Log.e(TAG, "onError: " + response.errorBody().string());
-                        throw new Exception("Error en el servicio: Malos datos");
-                    }
-
-                }catch (Throwable t){
-                    Log.e(TAG, "onThrowable: " + t.toString(), t);
-                    Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            }
-            @Override
-            public void onFailure (Call < ResponseUser > call, Throwable t){
-
-            }
-
-
-        });
-
-    }
 
     public void goMainActivity(){
         intentMain = new Intent(LoginActivity.this, MainActivity.class);
