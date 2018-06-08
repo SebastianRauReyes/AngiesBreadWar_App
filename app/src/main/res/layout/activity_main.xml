@@ -26,12 +26,24 @@
                 android:src="@drawable/img_user_light" />
 
             <TextView
-                android:id="@+id/textview_current_user"
+                android:id="@+id/textview_bienvenida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageView_user"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
+                android:textColor="@color/primary_dark"
+                android:text="Bienvenido"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textview_current_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textview_bienvenida"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/primary_dark"
                 android:text="Usuario"
                 android:textSize="25sp"

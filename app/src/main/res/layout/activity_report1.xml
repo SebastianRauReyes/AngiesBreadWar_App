@@ -70,7 +70,7 @@
             android:layout_height="60dp"
             android:layout_below="@+id/button_equipos"
             android:layout_centerHorizontal="true"
-            android:background="@mipmap/ic_go_back"
+            android:background="@mipmap/ic_go_back_blue"
             android:onClick="regresar"
             android:scaleType="center"/>
 

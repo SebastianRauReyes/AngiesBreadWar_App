@@ -25,20 +25,16 @@ import android.widget.Toast;
 import com.breadwar.angies.angiesbreadwar_app.R;
 import com.breadwar.angies.angiesbreadwar_app.interfaces.ApiService;
 import com.breadwar.angies.angiesbreadwar_app.interfaces.ApiServiceGenerator;
-import com.breadwar.angies.angiesbreadwar_app.model.ResponseMessage;
 import com.breadwar.angies.angiesbreadwar_app.model.ResponseMessage2;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,23 +58,25 @@ public class Report2Activity extends AppCompatActivity {
     private String maquinaria_id;
     private String aula_id;
 
+    private String validar;
+
     private SharedPreferences sharedPreferences;
 
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
-            setContentView(R.layout.activity_report2);
-            foto = findViewById(R.id.imageView_foto);
-            comentario = findViewById(R.id.imageView_comentario);
-            info = findViewById(R.id.TextView_info);
+        setContentView(R.layout.activity_report2);
+        foto = findViewById(R.id.imageView_foto);
+        comentario = findViewById(R.id.imageView_comentario);
+        info = findViewById(R.id.TextView_info);
 
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            user_id = sharedPreferences.getInt("id",0);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user_id = sharedPreferences.getInt("id",0);
 
 
     }
@@ -93,14 +91,14 @@ public class Report2Activity extends AppCompatActivity {
                 return;
             }
 
-          // Creando el directorio de imágenes (si no existe)
+            // Creando el directorio de imágenes (si no existe)
             File mediaStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             if (!mediaStorageDir.exists()) {
                 if (!mediaStorageDir.mkdirs()) {
                     throw new Exception("Failed to create directory");
                 }
             }
-          /// Definiendo la ruta destino de la captura (Uri)
+            /// Definiendo la ruta destino de la captura (Uri)
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
             mediaFileUri = Uri.fromFile(mediaFile);
@@ -158,7 +156,7 @@ public class Report2Activity extends AppCompatActivity {
             // Resultado en la captura de la foto
             if (resultCode == RESULT_OK) {
                 try {
-                     Log.d(TAG, "Procesando...");
+                    Log.d(TAG, "Procesando...");
                     // Toast.makeText(this, "Image saved to: " + mediaFileUri.getPath(), Toast.LENGTH_LONG).show();
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mediaFileUri);
@@ -166,20 +164,31 @@ public class Report2Activity extends AppCompatActivity {
                     bitmap = scaleBitmapDown(bitmap, 1000);
 
                     if( CAPTURE_IMAGE_DATOS == 301){
-                       /// Bitmap bitmapPersonal = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.muestra_lab);
+                        /// Bitmap bitmapPersonal = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.muestra_lab);
                         getTextFromImage(bitmap);
                         CAPTURE_IMAGE_DATOS = 0;
                         Toast.makeText(this, "Leyendo Imagen...", Toast.LENGTH_LONG).show();
-                        info.setText("Aula: "+aula_id+" - Equipo: " + maquinaria_id);
+
+
+                        if(aula_id.isEmpty() || maquinaria_id.isEmpty() || aula_id.equals(null) || maquinaria_id.equals(null)){
+                            Toast.makeText(this, "Intentelo nuevamente", Toast.LENGTH_LONG).show();
+                        }else{
+                            if (validar.equals("LAB")){
+                                info.setText("Aula: "+aula_id+" - Equipo: " + maquinaria_id);
+                                Toast.makeText(this, "Datos capturados correctamente", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(this, "Intentelo nuevamente", Toast.LENGTH_LONG).show();
+                            }
+                        }
                     }else{
                         foto.setImageBitmap(bitmap);
-                        Toast.makeText(this, "Guardando captura...", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, "Guardando captura...", Toast.LENGTH_LONG).show();
                     }
 
 
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
-                    Toast.makeText(this, "Error al procesar imagen: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Intentelo nuevamente", Toast.LENGTH_LONG).show();
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d(TAG, "ResultCode: RESULT_CANCELED");
@@ -262,29 +271,29 @@ public class Report2Activity extends AppCompatActivity {
         ApiService service = ApiServiceGenerator.createService(ApiService.class);
         Call<ResponseMessage2> call = null;
 
-            File file = new File(mediaFileUri.getPath());
-            Log.d(TAG, "File: " + file.getPath() + " - exists: " + file.exists());
+        File file = new File(mediaFileUri.getPath());
+        Log.d(TAG, "File: " + file.getPath() + " - exists: " + file.exists());
 
-            // Podemos enviar la imagen con el tamaño original, pero lo mejor será comprimila antes de subir (byteArray)
-            // RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+        // Podemos enviar la imagen con el tamaño original, pero lo mejor será comprimila antes de subir (byteArray)
+        // RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
 
-            Bitmap bitmap = BitmapFactory.decodeFile(mediaFileUri.getPath());
+        Bitmap bitmap = BitmapFactory.decodeFile(mediaFileUri.getPath());
 
-            // Reducir la imagen a 800px solo si lo supera
-            bitmap = scaleBitmapDown(bitmap, 1000);
+        // Reducir la imagen a 800px solo si lo supera
+        bitmap = scaleBitmapDown(bitmap, 1000);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
 
-            RequestBody requestuser_id = RequestBody.create(MultipartBody.FORM, userid );
-            RequestBody requestMaquinaria_id = RequestBody.create(MultipartBody.FORM, maquina_id );
-            RequestBody requesAula_id = RequestBody.create(MultipartBody.FORM, aulaid);
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
-            MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
-            RequestBody comentarioPart = RequestBody.create(MultipartBody.FORM, coment);
+        RequestBody requestuser_id = RequestBody.create(MultipartBody.FORM, userid );
+        RequestBody requestMaquinaria_id = RequestBody.create(MultipartBody.FORM, maquina_id );
+        RequestBody requesAula_id = RequestBody.create(MultipartBody.FORM, aulaid);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), byteArray);
+        MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
+        RequestBody comentarioPart = RequestBody.create(MultipartBody.FORM, coment);
 
-            call = service.createReporte(requestuser_id, requestMaquinaria_id, requesAula_id, comentarioPart, imagenPart);
+        call = service.createReporte(requestuser_id, requestMaquinaria_id, requesAula_id, comentarioPart, imagenPart);
 
         call.enqueue(new Callback<ResponseMessage2>() {
             @Override
@@ -318,7 +327,7 @@ public class Report2Activity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseMessage2> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.toString());
-               // Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         });
@@ -343,18 +352,26 @@ public class Report2Activity extends AppCompatActivity {
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                 SparseArray<TextBlock> items = textRecognizer.detect(frame);
 
-                TextBlock InfoLAB = items.valueAt(2);
+                TextBlock InfoLAB = items.valueAt(3);
+                String VALIDAR = InfoLAB.getValue().substring(0,3);
                 String LABORATORIO = InfoLAB.getValue().substring(3,6);
                 String MAQUINA = InfoLAB.getValue().substring(7,9);
 
+
+
+                validar = VALIDAR;
                 maquinaria_id  = MAQUINA;
                 aula_id = LABORATORIO;
 
-                Log.d(TAG, "LABORATORIO : " + LABORATORIO);
-                Log.d(TAG, "MAQUINA : " + MAQUINA);
+                Log.e(TAG, "LABORATORIO : " + LABORATORIO);
+                Log.e(TAG, "MAQUINA : " + MAQUINA);
+                Log.e(TAG, "VALIDAR : " + VALIDAR);
+
+
+
             }
         }catch (Throwable t){
-            Toast.makeText(this, "Error:" + t, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Capture los datos una vez más porfavor", Toast.LENGTH_LONG).show();
             Log.d(TAG, "t:" + t, t);
         }
 
