@@ -32,7 +32,7 @@
                 android:layout_below="@+id/imageView_user"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textColor="@color/primary_dark"
+                android:textColor="@color/primary_light"
                 android:text="Bienvenido"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -55,13 +55,13 @@
                 android:layout_height="80dp"
                 android:layout_below="@+id/textview_current_user"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="69dp"
                 android:background="@drawable/custom_button_2"
                 android:drawableStart="@mipmap/ic_warming_red"
+                android:onClick="hacerreporte"
                 android:paddingEnd="40dp"
                 android:paddingStart="40dp"
                 android:text="Reportar"
-                android:onClick="hacerreporte"
                 android:textColor="@color/primary_light"
                 android:textSize="20sp" />
 
