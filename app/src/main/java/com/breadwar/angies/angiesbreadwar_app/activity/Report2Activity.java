@@ -352,7 +352,7 @@ public class Report2Activity extends AppCompatActivity {
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                 SparseArray<TextBlock> items = textRecognizer.detect(frame);
 
-                TextBlock InfoLAB = items.valueAt(2);
+                TextBlock InfoLAB = items.valueAt(4);
                 String VALIDAR = InfoLAB.getValue().substring(0,3);
                 String LABORATORIO = InfoLAB.getValue().substring(3,6);
                 String MAQUINA = InfoLAB.getValue().substring(7,9);
